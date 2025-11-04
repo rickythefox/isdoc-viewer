@@ -23,18 +23,21 @@ export const ActionBar: React.FC<ActionBarProps> = ({ invoiceId, onReset }) => {
   return (
     <div className="flex gap-3 mb-6 no-print">
       <button
+        type="button"
         onClick={handlePrint}
         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
       >
         🖨️ Tisknout
       </button>
       <button
+        type="button"
         onClick={handleExportPDF}
         className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
       >
         📄 Export PDF
       </button>
       <button
+        type="button"
         onClick={onReset}
         className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors ml-auto"
       >

@@ -22,6 +22,8 @@ export const ValidationErrors: React.FC<ValidationErrorsProps> = ({
               className="h-5 w-5 text-yellow-400"
               viewBox="0 0 20 20"
               fill="currentColor"
+              role="img"
+              aria-label="Warning icon"
             >
               <path
                 fillRule="evenodd"
@@ -38,7 +40,7 @@ export const ValidationErrors: React.FC<ValidationErrorsProps> = ({
               <ul className="list-disc list-inside space-y-1">
                 {errors.map((error, index) => (
                   <li
-                    key={index}
+                    key={`${error.type}-${error.location || index}-${error.message.substring(0, 20)}`}
                     className={error.type === "error" ? "font-semibold" : ""}
                   >
                     {error.message}

@@ -1,5 +1,12 @@
 import { XMLParser } from "fast-xml-parser";
-import type { ISDOCInvoice } from "../types/isdoc";
+import type {
+  AccountingParty,
+  ISDOCInvoice,
+  InvoiceLine,
+  LegalMonetaryTotal,
+  PaymentMeans,
+  TaxTotal,
+} from "../types/isdoc";
 
 const parserOptions = {
   ignoreAttributes: false,
@@ -38,111 +45,151 @@ export class ISDOCParser {
   }
 
   // Map parsed XML object to ISDOCInvoice interface
-  private mapToISDOCInvoice(invoice: any): ISDOCInvoice {
+  private mapToISDOCInvoice(invoice: unknown): ISDOCInvoice {
     // Helper function to safely get value or undefined
-    const getValue = (obj: any, defaultValue?: any) => {
+    const getValue = <T>(obj: T, defaultValue?: T): T | undefined => {
       if (obj === undefined || obj === null || obj === "") return defaultValue;
       return obj;
     };
 
+    // Cast invoice to a record type for safe property access
+    const inv = invoice as Record<string, unknown>;
+
     return {
-      documentType: getValue(invoice.DocumentType, ""),
-      id: getValue(invoice.ID, ""),
-      uuid: getValue(invoice.UUID, ""),
-      issuingSystem: getValue(invoice.IssuingSystem, ""),
-      issueDate: getValue(invoice.IssueDate, ""),
-      taxPointDate: getValue(invoice.TaxPointDate, ""),
-      vatApplicable:
-        invoice.VATApplicable === "true" || invoice.VATApplicable === true,
+      documentType: getValue(inv.DocumentType, "") as string,
+      id: getValue(inv.ID, "") as string,
+      uuid: getValue(inv.UUID, "") as string,
+      issuingSystem: getValue(inv.IssuingSystem, "") as string,
+      issueDate: getValue(inv.IssueDate, "") as string,
+      taxPointDate: getValue(inv.TaxPointDate, "") as string,
+      vatApplicable: inv.VATApplicable === "true" || inv.VATApplicable === true,
       electronicPossibilityAgreementReference: getValue(
-        invoice.ElectronicPossibilityAgreementReference,
-      ),
-      note: getValue(invoice.Note),
-      localCurrencyCode: getValue(invoice.LocalCurrencyCode, "CZK"),
-      currRate: parseFloat(getValue(invoice.CurrRate, "1")),
-      refCurrRate: parseFloat(getValue(invoice.RefCurrRate, "1")),
-      accountingSupplierParty: this.mapParty(invoice.AccountingSupplierParty),
-      accountingCustomerParty: this.mapParty(invoice.AccountingCustomerParty),
-      invoiceLines: this.mapInvoiceLines(invoice.InvoiceLines),
-      taxTotal: this.mapTaxTotal(invoice.TaxTotal),
-      legalMonetaryTotal: this.mapLegalMonetaryTotal(
-        invoice.LegalMonetaryTotal,
-      ),
-      paymentMeans: this.mapPaymentMeans(invoice.PaymentMeans),
+        inv.ElectronicPossibilityAgreementReference,
+      ) as string | undefined,
+      note: getValue(inv.Note) as string | undefined,
+      localCurrencyCode: getValue(inv.LocalCurrencyCode, "CZK") as string,
+      currRate: parseFloat(getValue(inv.CurrRate, "1") as string),
+      refCurrRate: parseFloat(getValue(inv.RefCurrRate, "1") as string),
+      accountingSupplierParty: this.mapParty(inv.AccountingSupplierParty),
+      accountingCustomerParty: this.mapParty(inv.AccountingCustomerParty),
+      invoiceLines: this.mapInvoiceLines(inv.InvoiceLines),
+      taxTotal: this.mapTaxTotal(inv.TaxTotal),
+      legalMonetaryTotal: this.mapLegalMonetaryTotal(inv.LegalMonetaryTotal),
+      paymentMeans: this.mapPaymentMeans(inv.PaymentMeans),
     };
   }
 
-  private mapParty(accountingParty: any): any {
-    const party = accountingParty?.Party || {};
+  private mapParty(accountingParty: unknown): AccountingParty {
+    const ap = accountingParty as Record<string, unknown> | undefined;
+    const party = (ap?.Party as Record<string, unknown>) || {};
     return {
       party: {
         partyIdentification: {
-          id: party.PartyIdentification?.ID,
+          id: (party.PartyIdentification as Record<string, unknown>)?.ID as
+            | string
+            | undefined,
         },
         partyName: {
-          name: party.PartyName?.Name,
+          name: (party.PartyName as Record<string, unknown>)?.Name as
+            | string
+            | undefined,
         },
         postalAddress: {
-          streetName: party.PostalAddress?.StreetName,
-          buildingNumber: party.PostalAddress?.BuildingNumber,
-          cityName: party.PostalAddress?.CityName,
-          postalZone: party.PostalAddress?.PostalZone,
+          streetName: (party.PostalAddress as Record<string, unknown>)
+            ?.StreetName as string | undefined,
+          buildingNumber: (party.PostalAddress as Record<string, unknown>)
+            ?.BuildingNumber as string | undefined,
+          cityName: (party.PostalAddress as Record<string, unknown>)
+            ?.CityName as string | undefined,
+          postalZone: (party.PostalAddress as Record<string, unknown>)
+            ?.PostalZone as string | undefined,
           country: {
-            identificationCode:
-              party.PostalAddress?.Country?.IdentificationCode,
-            name: party.PostalAddress?.Country?.Name,
+            identificationCode: (
+              (party.PostalAddress as Record<string, unknown>)
+                ?.Country as Record<string, unknown>
+            )?.IdentificationCode as string | undefined,
+            name: (
+              (party.PostalAddress as Record<string, unknown>)
+                ?.Country as Record<string, unknown>
+            )?.Name as string | undefined,
           },
         },
         registerIdentification: party.RegisterIdentification
           ? {
-              preformatted: party.RegisterIdentification.Preformatted,
+              preformatted: (
+                party.RegisterIdentification as Record<string, unknown>
+              ).Preformatted as string | undefined,
             }
           : undefined,
         contact: party.Contact
           ? {
-              name: party.Contact.Name,
-              telephone: party.Contact.Telephone,
-              electronicMail: party.Contact.ElectronicMail,
+              name: (party.Contact as Record<string, unknown>).Name as
+                | string
+                | undefined,
+              telephone: (party.Contact as Record<string, unknown>).Telephone as
+                | string
+                | undefined,
+              electronicMail: (party.Contact as Record<string, unknown>)
+                .ElectronicMail as string | undefined,
             }
           : undefined,
       },
     };
   }
 
-  private mapInvoiceLines(invoiceLines: any): any[] {
-    const lines = invoiceLines?.InvoiceLine;
+  private mapInvoiceLines(invoiceLines: unknown): InvoiceLine[] {
+    const il = invoiceLines as Record<string, unknown> | undefined;
+    const lines = il?.InvoiceLine;
     const linesArray = Array.isArray(lines) ? lines : lines ? [lines] : [];
 
-    return linesArray.map((line: any) => ({
-      id: line.ID || "",
-      invoicedQuantity: parseFloat(line.InvoicedQuantity || "0"),
-      lineExtensionAmount: parseFloat(line.LineExtensionAmount || "0"),
-      lineExtensionAmountTaxInclusive: parseFloat(
-        line.LineExtensionAmountTaxInclusive || "0",
-      ),
-      lineExtensionTaxAmount: parseFloat(line.LineExtensionTaxAmount || "0"),
-      unitPrice: parseFloat(line.UnitPrice || "0"),
-      unitPriceTaxInclusive: parseFloat(line.UnitPriceTaxInclusive || "0"),
-      classifiedTaxCategory: {
-        percent: parseFloat(line.ClassifiedTaxCategory?.Percent || "0"),
-        vatCalculationMethod: parseInt(
-          line.ClassifiedTaxCategory?.VATCalculationMethod || "0",
-          10,
+    return linesArray.map((line: unknown) => {
+      const l = line as Record<string, unknown>;
+      return {
+        id: (l.ID as string) || "",
+        invoicedQuantity: parseFloat((l.InvoicedQuantity as string) || "0"),
+        lineExtensionAmount: parseFloat(
+          (l.LineExtensionAmount as string) || "0",
         ),
-        vatApplicable:
-          line.ClassifiedTaxCategory?.VATApplicable === "true" ||
-          line.ClassifiedTaxCategory?.VATApplicable === true,
-      },
-      item: line.Item
-        ? {
-            description: line.Item.Description,
-          }
-        : undefined,
-    }));
+        lineExtensionAmountTaxInclusive: parseFloat(
+          (l.LineExtensionAmountTaxInclusive as string) || "0",
+        ),
+        lineExtensionTaxAmount: parseFloat(
+          (l.LineExtensionTaxAmount as string) || "0",
+        ),
+        unitPrice: parseFloat((l.UnitPrice as string) || "0"),
+        unitPriceTaxInclusive: parseFloat(
+          (l.UnitPriceTaxInclusive as string) || "0",
+        ),
+        classifiedTaxCategory: {
+          percent: parseFloat(
+            ((l.ClassifiedTaxCategory as Record<string, unknown>)
+              ?.Percent as string) || "0",
+          ),
+          vatCalculationMethod: parseInt(
+            ((l.ClassifiedTaxCategory as Record<string, unknown>)
+              ?.VATCalculationMethod as string) || "0",
+            10,
+          ),
+          vatApplicable:
+            (l.ClassifiedTaxCategory as Record<string, unknown>)
+              ?.VATApplicable === "true" ||
+            (l.ClassifiedTaxCategory as Record<string, unknown>)
+              ?.VATApplicable === true,
+        },
+        item: l.Item
+          ? {
+              description: (l.Item as Record<string, unknown>).Description as
+                | string
+                | undefined,
+            }
+          : undefined,
+      };
+    });
   }
 
-  private mapTaxTotal(taxTotal: any): any {
-    const subtotals = taxTotal?.TaxSubTotal;
+  private mapTaxTotal(taxTotal: unknown): TaxTotal {
+    const tt = taxTotal as Record<string, unknown> | undefined;
+    const subtotals = tt?.TaxSubTotal;
     const subtotalsArray = Array.isArray(subtotals)
       ? subtotals
       : subtotals
@@ -150,60 +197,82 @@ export class ISDOCParser {
         : [];
 
     return {
-      taxSubTotal: subtotalsArray.map((sub: any) => ({
-        taxableAmount: parseFloat(sub.TaxableAmount || "0"),
-        taxAmount: parseFloat(sub.TaxAmount || "0"),
-        taxInclusiveAmount: parseFloat(sub.TaxInclusiveAmount || "0"),
-        alreadyClaimedTaxableAmount: parseFloat(
-          sub.AlreadyClaimedTaxableAmount || "0",
-        ),
-        alreadyClaimedTaxAmount: parseFloat(sub.AlreadyClaimedTaxAmount || "0"),
-        alreadyClaimedTaxInclusiveAmount: parseFloat(
-          sub.AlreadyClaimedTaxInclusiveAmount || "0",
-        ),
-        differenceTaxableAmount: parseFloat(sub.DifferenceTaxableAmount || "0"),
-        differenceTaxAmount: parseFloat(sub.DifferenceTaxAmount || "0"),
-        differenceTaxInclusiveAmount: parseFloat(
-          sub.DifferenceTaxInclusiveAmount || "0",
-        ),
-        taxCategory: {
-          percent: parseFloat(sub.TaxCategory?.Percent || "0"),
-          vatApplicable:
-            sub.TaxCategory?.VATApplicable === "true" ||
-            sub.TaxCategory?.VATApplicable === true,
-          localReverseChargeFlag:
-            sub.TaxCategory?.LocalReverseChargeFlag === "true" ||
-            sub.TaxCategory?.LocalReverseChargeFlag === true,
-        },
-      })),
-      taxAmount: parseFloat(taxTotal?.TaxAmount || "0"),
+      taxSubTotal: subtotalsArray.map((sub: unknown) => {
+        const s = sub as Record<string, unknown>;
+        return {
+          taxableAmount: parseFloat((s.TaxableAmount as string) || "0"),
+          taxAmount: parseFloat((s.TaxAmount as string) || "0"),
+          taxInclusiveAmount: parseFloat(
+            (s.TaxInclusiveAmount as string) || "0",
+          ),
+          alreadyClaimedTaxableAmount: parseFloat(
+            (s.AlreadyClaimedTaxableAmount as string) || "0",
+          ),
+          alreadyClaimedTaxAmount: parseFloat(
+            (s.AlreadyClaimedTaxAmount as string) || "0",
+          ),
+          alreadyClaimedTaxInclusiveAmount: parseFloat(
+            (s.AlreadyClaimedTaxInclusiveAmount as string) || "0",
+          ),
+          differenceTaxableAmount: parseFloat(
+            (s.DifferenceTaxableAmount as string) || "0",
+          ),
+          differenceTaxAmount: parseFloat(
+            (s.DifferenceTaxAmount as string) || "0",
+          ),
+          differenceTaxInclusiveAmount: parseFloat(
+            (s.DifferenceTaxInclusiveAmount as string) || "0",
+          ),
+          taxCategory: {
+            percent: parseFloat(
+              ((s.TaxCategory as Record<string, unknown>)?.Percent as string) ||
+                "0",
+            ),
+            vatApplicable:
+              (s.TaxCategory as Record<string, unknown>)?.VATApplicable ===
+                "true" ||
+              (s.TaxCategory as Record<string, unknown>)?.VATApplicable ===
+                true,
+            localReverseChargeFlag:
+              (s.TaxCategory as Record<string, unknown>)
+                ?.LocalReverseChargeFlag === "true" ||
+              (s.TaxCategory as Record<string, unknown>)
+                ?.LocalReverseChargeFlag === true,
+          },
+        };
+      }),
+      taxAmount: parseFloat((tt?.TaxAmount as string) || "0"),
     };
   }
 
-  private mapLegalMonetaryTotal(total: any): any {
+  private mapLegalMonetaryTotal(total: unknown): LegalMonetaryTotal {
+    const t = total as Record<string, unknown> | undefined;
     return {
-      taxExclusiveAmount: parseFloat(total?.TaxExclusiveAmount || "0"),
-      taxInclusiveAmount: parseFloat(total?.TaxInclusiveAmount || "0"),
+      taxExclusiveAmount: parseFloat((t?.TaxExclusiveAmount as string) || "0"),
+      taxInclusiveAmount: parseFloat((t?.TaxInclusiveAmount as string) || "0"),
       alreadyClaimedTaxExclusiveAmount: parseFloat(
-        total?.AlreadyClaimedTaxExclusiveAmount || "0",
+        (t?.AlreadyClaimedTaxExclusiveAmount as string) || "0",
       ),
       alreadyClaimedTaxInclusiveAmount: parseFloat(
-        total?.AlreadyClaimedTaxInclusiveAmount || "0",
+        (t?.AlreadyClaimedTaxInclusiveAmount as string) || "0",
       ),
       differenceTaxExclusiveAmount: parseFloat(
-        total?.DifferenceTaxExclusiveAmount || "0",
+        (t?.DifferenceTaxExclusiveAmount as string) || "0",
       ),
       differenceTaxInclusiveAmount: parseFloat(
-        total?.DifferenceTaxInclusiveAmount || "0",
+        (t?.DifferenceTaxInclusiveAmount as string) || "0",
       ),
-      payableRoundingAmount: parseFloat(total?.PayableRoundingAmount || "0"),
-      paidDepositsAmount: parseFloat(total?.PaidDepositsAmount || "0"),
-      payableAmount: parseFloat(total?.PayableAmount || "0"),
+      payableRoundingAmount: parseFloat(
+        (t?.PayableRoundingAmount as string) || "0",
+      ),
+      paidDepositsAmount: parseFloat((t?.PaidDepositsAmount as string) || "0"),
+      payableAmount: parseFloat((t?.PayableAmount as string) || "0"),
     };
   }
 
-  private mapPaymentMeans(paymentMeans: any): any {
-    const payments = paymentMeans?.Payment;
+  private mapPaymentMeans(paymentMeans: unknown): PaymentMeans {
+    const pm = paymentMeans as Record<string, unknown> | undefined;
+    const payments = pm?.Payment;
     const paymentsArray = Array.isArray(payments)
       ? payments
       : payments
@@ -211,21 +280,25 @@ export class ISDOCParser {
         : [];
 
     return {
-      payment: paymentsArray.map((payment: any) => ({
-        paidAmount: parseFloat(payment.PaidAmount || "0"),
-        paymentMeansCode: payment.PaymentMeansCode || "",
-        details: {
-          paymentDueDate: payment.Details?.PaymentDueDate || "",
-          id: payment.Details?.ID || "",
-          bankCode: payment.Details?.BankCode || "",
-          name: payment.Details?.Name || "",
-          iban: payment.Details?.IBAN || "",
-          bic: payment.Details?.BIC || "",
-          variableSymbol: payment.Details?.VariableSymbol,
-          constantSymbol: payment.Details?.ConstantSymbol,
-          specificSymbol: payment.Details?.SpecificSymbol,
-        },
-      })),
+      payment: paymentsArray.map((payment: unknown) => {
+        const p = payment as Record<string, unknown>;
+        const details = p.Details as Record<string, unknown> | undefined;
+        return {
+          paidAmount: parseFloat((p.PaidAmount as string) || "0"),
+          paymentMeansCode: (p.PaymentMeansCode as string) || "",
+          details: {
+            paymentDueDate: (details?.PaymentDueDate as string) || "",
+            id: (details?.ID as string) || "",
+            bankCode: (details?.BankCode as string) || "",
+            name: (details?.Name as string) || "",
+            iban: (details?.IBAN as string) || "",
+            bic: (details?.BIC as string) || "",
+            variableSymbol: details?.VariableSymbol as string | undefined,
+            constantSymbol: details?.ConstantSymbol as string | undefined,
+            specificSymbol: details?.SpecificSymbol as string | undefined,
+          },
+        };
+      }),
     };
   }
 }

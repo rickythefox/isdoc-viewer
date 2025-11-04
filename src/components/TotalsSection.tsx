@@ -34,8 +34,11 @@ export const TotalsSection: React.FC<TotalsSectionProps> = ({
           </div>
 
           {showVAT &&
-            taxTotal.taxSubTotal.map((subtotal, index) => (
-              <div key={index} className="flex justify-between">
+            taxTotal.taxSubTotal.map((subtotal) => (
+              <div
+                key={`vat-${subtotal.taxCategory.percent}`}
+                className="flex justify-between"
+              >
                 <span className="text-gray-600">
                   DPH {subtotal.taxCategory.percent}%:
                 </span>
