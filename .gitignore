@@ -30,3 +30,13 @@ coverage/
 # Misc
 .cache/
 .temp/
+
+# Markdown files (except README)
+*.md
+!README.md
+
+# Claude
+.claude
+
+# Test data
+data/
