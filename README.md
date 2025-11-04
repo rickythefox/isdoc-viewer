@@ -9,6 +9,12 @@
 
 A modern, type-safe React application for reading and displaying Czech ISDOC 6.0.2 electronic invoices. Features include professional invoice rendering, QR code generation for payments, print-friendly views, and PDF export.
 
+## Available online
+
+https://rickythefox.github.io/isdoc-viewer/
+
+**The app is client-side only, no data leaves your browser!**
+
 ## ✨ Key Features
 
 ### 🗂️ Invoice Parsing & Display
