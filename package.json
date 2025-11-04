@@ -1,0 +1,33 @@
+{
+    "name": "typescript-template",
+    "version": "1.0.0",
+    "description": "A modern TypeScript template with tsx, Biome linting/formatting, and import sorting",
+    "type": "module",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev": "tsx -r 'dotenv/config' src/index.ts",
+        "build": "tsc",
+        "lint": "biome lint src",
+        "format": "biome format --write src",
+        "check": "biome check --write src",
+        "typecheck": "tsc --noEmit"
+    },
+    "keywords": [
+        "typescript",
+        "template",
+        "tsx",
+        "biome"
+    ],
+    "author": "",
+    "license": "MIT",
+    "packageManager": "pnpm@10.17.0",
+    "devDependencies": {
+        "@biomejs/biome": "^2.2.6",
+        "@types/node": "^24.8.1",
+        "tsx": "^4.20.6",
+        "typescript": "^5.9.3"
+    },
+    "dependencies": {
+        "dotenv": "^17.2.3"
+    }
+}
