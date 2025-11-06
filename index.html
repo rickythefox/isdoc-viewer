@@ -3,6 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ISDOC Invoice Reader – Prohlížeč českých elektronických faktur ISDOC 6.0.2. Veškeré zpracování probíhá v prohlížeči, žádná data se nikam neodesílají." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://rickythefox.github.io/isdoc-viewer/" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="ISDOC Invoice Reader" />
+    <meta property="og:description" content="Prohlížeč českých elektronických faktur ve formátu ISDOC 6.0.2. Všechna data zůstávají ve vašem prohlížeči." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rickythefox.github.io/isdoc-viewer/" />
+    <meta property="og:locale" content="cs_CZ" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="ISDOC Invoice Reader" />
+    <meta name="twitter:description" content="Prohlížeč českých elektronických faktur ISDOC 6.0.2. Zpracování pouze v prohlížeči." />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ISDOC Invoice Reader",
+        "url": "https://rickythefox.github.io/isdoc-viewer/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "cs",
+        "description": "Prohlížeč českých elektronických faktur ve formátu ISDOC 6.0.2. Veškeré zpracování probíhá v prohlížeči, žádná data se nikam neodesílají."
+      }
+    </script>
     <title>ISDOC Invoice Reader</title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YC7DD8829"></script>
@@ -16,6 +45,20 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <header style="margin: 2rem auto 1rem; text-align: center; max-width: 56rem;">
+        <h1 style="font-size: 2rem; font-weight: 700; margin: 0 0 .5rem; color: #1f2937;">ISDOC Invoice Reader</h1>
+        <p style="margin: 0; color: #4b5563;">Prohlížeč českých elektronických faktur ve formátu ISDOC 6.0.2</p>
+      </header>
+      <div style="max-width: 56rem; margin: 0 auto 1.5rem; border: 1px solid #93c5fd; background: #eff6ff; padding: 1rem;">
+        <p style="margin: 0; color: #1e40af; font-size: .95rem;">
+          🔒 Veškeré zpracování probíhá ve vašem prohlížeči. Žádná data nám nejsou odeslána.
+        </p>
+      </div>
+      <p style="max-width: 56rem; margin: 0 auto; color: #6b7280; font-size: .9rem;">
+        Tato stránka vyžaduje JavaScript pro plnou funkčnost (nahrání a zobrazení ISDOC faktury). Výše uvedené informace jsou k dispozici pro vyhledávače a uživatele bez JavaScriptu.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
