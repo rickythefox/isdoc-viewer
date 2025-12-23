@@ -106,6 +106,20 @@ function App() {
                         <InvoiceViewer invoice={invoice} />
                     </>
                 )}
+
+                {/* Footer attribution */}
+                <footer className="mt-12 pt-6 border-t border-gray-300 text-center text-sm text-gray-500 no-print">
+                    made with ❤️ by{" "}
+                    <a
+                        href="https://www.linkedin.com/in/richardginzburg/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 hover:underline"
+                    >
+                        Richard Ginzburg
+                    </a>
+                    {" "}and 🤖 Claude
+                </footer>
             </div>
         </div>
     );
