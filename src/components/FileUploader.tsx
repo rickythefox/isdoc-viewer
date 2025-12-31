@@ -1,12 +1,15 @@
 import type React from "react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from "react-i18next";
 
 interface FileUploaderProps {
   onFileLoad: (content: string, filename: string) => void;
 }
 
 export const FileUploader: React.FC<FileUploaderProps> = ({ onFileLoad }) => {
+  const { t } = useTranslation();
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
@@ -58,15 +61,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileLoad }) => {
           />
         </svg>
         {isDragActive ? (
-          <p className="text-lg text-blue-600">Přetáhněte soubor sem ...</p>
+          <p className="text-lg text-blue-600">{t("upload.dragging")}</p>
         ) : (
           <>
-            <p className="text-lg text-gray-600">
-              Přetáhněte ISDOC soubor sem nebo klikněte pro výběr
-            </p>
-            <p className="text-sm text-gray-500">
-              Podporované formáty: .xml, .isdoc
-            </p>
+            <p className="text-lg text-gray-600">{t("upload.dropzone")}</p>
+            <p className="text-sm text-gray-500">{t("upload.formats")}</p>
           </>
         )}
       </div>

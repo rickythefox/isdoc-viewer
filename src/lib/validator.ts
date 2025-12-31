@@ -8,7 +8,7 @@ export class ISDOCValidator {
     if (!invoice.id) {
       errors.push({
         type: "error",
-        message: "Invoice ID is required",
+        messageKey: "validation.invoiceIdRequired",
         location: "Invoice/ID",
       });
     }
@@ -16,7 +16,7 @@ export class ISDOCValidator {
     if (!invoice.issueDate) {
       errors.push({
         type: "error",
-        message: "Issue date is required",
+        messageKey: "validation.issueDateRequired",
         location: "Invoice/IssueDate",
       });
     }
@@ -24,7 +24,7 @@ export class ISDOCValidator {
     if (!invoice.accountingSupplierParty.party.partyName?.name) {
       errors.push({
         type: "error",
-        message: "Supplier name is required",
+        messageKey: "validation.supplierRequired",
         location: "Invoice/AccountingSupplierParty",
       });
     }
@@ -32,7 +32,7 @@ export class ISDOCValidator {
     if (invoice.legalMonetaryTotal.payableAmount <= 0) {
       errors.push({
         type: "warning",
-        message: "Payable amount should be greater than zero",
+        messageKey: "validation.payableAmountPositive",
         location: "Invoice/LegalMonetaryTotal/PayableAmount",
       });
     }
@@ -50,7 +50,12 @@ export class ISDOCValidator {
     ) {
       errors.push({
         type: "warning",
-        message: `Line items total (${calculatedTotal}) doesn't match invoice total (${invoice.legalMonetaryTotal.taxInclusiveAmount})`,
+        messageKey: "validation.totalsMismatch",
+        messageParams: {
+          calculated: calculatedTotal.toFixed(2),
+          invoiceTotal:
+            invoice.legalMonetaryTotal.taxInclusiveAmount.toFixed(2),
+        },
         location: "Invoice/InvoiceLines",
       });
     }

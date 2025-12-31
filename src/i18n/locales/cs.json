@@ -1,0 +1,85 @@
+{
+  "header": {
+    "title": "ISDOC Invoice Reader",
+    "subtitle": "Prohlížeč českých elektronických faktur ve formátu ISDOC 6.0.2"
+  },
+  "upload": {
+    "dropzone": "Přetáhněte ISDOC soubor sem nebo klikněte pro výběr",
+    "dragging": "Přetáhněte soubor sem ...",
+    "formats": "Podporované formáty: .xml, .isdoc"
+  },
+  "invoice": {
+    "title": "FAKTURA",
+    "number": "Číslo faktury",
+    "uuid": "UUID",
+    "issueDate": "Datum vystavení",
+    "taxDate": "Datum zdanitelného plnění",
+    "dueDate": "Datum splatnosti",
+    "vatPayer": "Plátce DPH",
+    "yes": "Ano",
+    "no": "Ne",
+    "issuedBy": "Vystaveno systémem"
+  },
+  "parties": {
+    "supplier": "Dodavatel",
+    "customer": "Odběratel",
+    "ico": "IČO",
+    "tel": "Tel",
+    "email": "Email",
+    "note": "Poznámka"
+  },
+  "items": {
+    "title": "Položky faktury",
+    "description": "Popis",
+    "quantity": "Množství",
+    "unitPrice": "Jedn. cena",
+    "vatPercent": "DPH %",
+    "total": "Celkem",
+    "noDescription": "Bez popisu"
+  },
+  "totals": {
+    "taxBase": "Základ daně",
+    "vat": "DPH {{percent}}%",
+    "deposits": "Zaplacené zálohy",
+    "total": "Celkem k úhradě"
+  },
+  "payment": {
+    "title": "Platební údaje",
+    "accountNumber": "Číslo účtu",
+    "iban": "IBAN",
+    "bic": "BIC",
+    "bankName": "Název banky",
+    "variableSymbol": "Var. symbol",
+    "constantSymbol": "Konst. symbol",
+    "specificSymbol": "Spec. symbol",
+    "qrTitle": "QR kód pro platbu",
+    "qrHint": "Naskenujte v mobilní bance",
+    "qrMessage": "Faktura {{invoiceId}}"
+  },
+  "actions": {
+    "print": "Tisknout",
+    "exportPdf": "Export PDF",
+    "loadAnother": "Načíst jinou fakturu"
+  },
+  "errors": {
+    "pdfExportFailed": "Nepodařilo se exportovat PDF",
+    "loadingFailed": "Chyba při načítání faktury",
+    "unknownParsing": "Neznámá chyba při parsování"
+  },
+  "validation": {
+    "title": "Validační upozornění ({{errors}} chyb, {{warnings}} varování)",
+    "invoiceIdRequired": "Číslo faktury je povinné",
+    "issueDateRequired": "Datum vystavení je povinné",
+    "supplierRequired": "Název dodavatele je povinný",
+    "payableAmountPositive": "Částka k úhradě by měla být větší než nula",
+    "totalsMismatch": "Součet položek ({{calculated}}) neodpovídá celkové částce faktury ({{invoiceTotal}})"
+  },
+  "parser": {
+    "invalidFormat": "Neplatný formát ISDOC: Kořenový element faktury nebyl nalezen",
+    "parseFailed": "Nepodařilo se parsovat ISDOC XML"
+  },
+  "footer": {
+    "privacy": "Veškeré zpracování probíhá ve vašem prohlížeči. Žádná data nám nejsou odeslána.",
+    "madeWith": "made with ❤️ by Richard Ginzburg and 🤖 Claude"
+  }
+}

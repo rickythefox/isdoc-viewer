@@ -134,6 +134,7 @@ export interface PaymentDetails {
 
 export interface ValidationError {
   type: "error" | "warning";
-  message: string;
+  messageKey: string;
+  messageParams?: Record<string, string | number>;
   location?: string;
 }

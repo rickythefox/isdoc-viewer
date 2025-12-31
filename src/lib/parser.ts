@@ -1,8 +1,8 @@
 import { XMLParser } from "fast-xml-parser";
 import type {
   AccountingParty,
-  ISDOCInvoice,
   InvoiceLine,
+  ISDOCInvoice,
   LegalMonetaryTotal,
   PaymentMeans,
   TaxTotal,

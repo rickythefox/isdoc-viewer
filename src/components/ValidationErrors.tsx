@@ -1,4 +1,5 @@
 import type React from "react";
+import { useTranslation } from "react-i18next";
 import type { ValidationError } from "../types/isdoc";
 
 interface ValidationErrorsProps {
@@ -8,6 +9,8 @@ interface ValidationErrorsProps {
 export const ValidationErrors: React.FC<ValidationErrorsProps> = ({
   errors,
 }) => {
+  const { t } = useTranslation();
+
   if (errors.length === 0) return null;
 
   const errorCount = errors.filter((e) => e.type === "error").length;
@@ -34,16 +37,19 @@ export const ValidationErrors: React.FC<ValidationErrorsProps> = ({
           </div>
           <div className="ml-3">
             <h3 className="text-sm font-medium text-yellow-800">
-              Validační upozornění ({errorCount} chyb, {warningCount} varování)
+              {t("validation.title", {
+                errors: errorCount,
+                warnings: warningCount,
+              })}
             </h3>
             <div className="mt-2 text-sm text-yellow-700">
               <ul className="list-disc list-inside space-y-1">
                 {errors.map((error, index) => (
                   <li
-                    key={`${error.type}-${error.location || index}-${error.message.substring(0, 20)}`}
+                    key={`${error.type}-${error.location || index}-${error.messageKey}`}
                     className={error.type === "error" ? "font-semibold" : ""}
                   >
-                    {error.message}
+                    {t(error.messageKey, error.messageParams)}
                     {error.location && (
                       <span className="text-yellow-600 text-xs ml-2">
                         ({error.location})

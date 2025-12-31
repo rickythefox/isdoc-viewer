@@ -1,4 +1,5 @@
 import type React from "react";
+import { useTranslation } from "react-i18next";
 import type { ISDOCInvoice } from "../types/isdoc";
 import { InvoiceHeader } from "./InvoiceHeader";
 import { LineItemsTable } from "./LineItemsTable";
@@ -11,6 +12,8 @@ interface InvoiceViewerProps {
 }
 
 export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       id="invoice-viewer"
@@ -19,13 +22,19 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice }) => {
       <InvoiceHeader invoice={invoice} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <PartyPanel party={invoice.accountingSupplierParty} title="Dodavatel" />
-        <PartyPanel party={invoice.accountingCustomerParty} title="Odběratel" />
+        <PartyPanel
+          party={invoice.accountingSupplierParty}
+          title={t("parties.supplier")}
+        />
+        <PartyPanel
+          party={invoice.accountingCustomerParty}
+          title={t("parties.customer")}
+        />
       </div>
 
       {invoice.note && (
         <div className="mb-6 p-4 bg-gray-50 rounded border-l-4 border-blue-500">
-          <div className="text-sm text-gray-600 mb-1">Poznámka</div>
+          <div className="text-sm text-gray-600 mb-1">{t("parties.note")}</div>
           <div className="text-sm">{invoice.note}</div>
         </div>
       )}

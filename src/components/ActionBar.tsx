@@ -1,4 +1,5 @@
 import type React from "react";
+import { useTranslation } from "react-i18next";
 import { exportToPDF } from "../lib/pdf-exporter";
 
 interface ActionBarProps {
@@ -7,6 +8,8 @@ interface ActionBarProps {
 }
 
 export const ActionBar: React.FC<ActionBarProps> = ({ invoiceId, onReset }) => {
+  const { t } = useTranslation();
+
   const handlePrint = () => {
     window.print();
   };
@@ -16,7 +19,7 @@ export const ActionBar: React.FC<ActionBarProps> = ({ invoiceId, onReset }) => {
       await exportToPDF("invoice-viewer", `Faktura_${invoiceId}.pdf`);
     } catch (error) {
       console.error("Failed to export PDF:", error);
-      alert("Nepodařilo se exportovat PDF");
+      alert(t("errors.pdfExportFailed"));
     }
   };
 
@@ -27,21 +30,21 @@ export const ActionBar: React.FC<ActionBarProps> = ({ invoiceId, onReset }) => {
         onClick={handlePrint}
         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
       >
-        🖨️ Tisknout
+        🖨️ {t("actions.print")}
       </button>
       <button
         type="button"
         onClick={handleExportPDF}
         className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
       >
-        📄 Export PDF
+        📄 {t("actions.exportPdf")}
       </button>
       <button
         type="button"
         onClick={onReset}
         className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors ml-auto"
       >
-        ← Načíst jinou fakturu
+        ← {t("actions.loadAnother")}
       </button>
     </div>
   );

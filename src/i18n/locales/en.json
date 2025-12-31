@@ -1,0 +1,85 @@
+{
+  "header": {
+    "title": "ISDOC Invoice Reader",
+    "subtitle": "Czech electronic invoice viewer in ISDOC 6.0.2 format"
+  },
+  "upload": {
+    "dropzone": "Drop ISDOC file here or click to select",
+    "dragging": "Drop file here ...",
+    "formats": "Supported formats: .xml, .isdoc"
+  },
+  "invoice": {
+    "title": "INVOICE",
+    "number": "Invoice number",
+    "uuid": "UUID",
+    "issueDate": "Issue date",
+    "taxDate": "Tax point date",
+    "dueDate": "Due date",
+    "vatPayer": "VAT payer",
+    "yes": "Yes",
+    "no": "No",
+    "issuedBy": "Issued by system"
+  },
+  "parties": {
+    "supplier": "Supplier",
+    "customer": "Customer",
+    "ico": "Company ID",
+    "tel": "Phone",
+    "email": "Email",
+    "note": "Note"
+  },
+  "items": {
+    "title": "Invoice items",
+    "description": "Description",
+    "quantity": "Quantity",
+    "unitPrice": "Unit price",
+    "vatPercent": "VAT %",
+    "total": "Total",
+    "noDescription": "No description"
+  },
+  "totals": {
+    "taxBase": "Tax base",
+    "vat": "VAT {{percent}}%",
+    "deposits": "Paid deposits",
+    "total": "Total payable"
+  },
+  "payment": {
+    "title": "Payment details",
+    "accountNumber": "Account number",
+    "iban": "IBAN",
+    "bic": "BIC",
+    "bankName": "Bank name",
+    "variableSymbol": "Variable symbol",
+    "constantSymbol": "Constant symbol",
+    "specificSymbol": "Specific symbol",
+    "qrTitle": "QR code for payment",
+    "qrHint": "Scan in mobile banking app",
+    "qrMessage": "Invoice {{invoiceId}}"
+  },
+  "actions": {
+    "print": "Print",
+    "exportPdf": "Export PDF",
+    "loadAnother": "Load another invoice"
+  },
+  "errors": {
+    "pdfExportFailed": "Failed to export PDF",
+    "loadingFailed": "Error loading invoice",
+    "unknownParsing": "Unknown parsing error"
+  },
+  "validation": {
+    "title": "Validation warnings ({{errors}} errors, {{warnings}} warnings)",
+    "invoiceIdRequired": "Invoice ID is required",
+    "issueDateRequired": "Issue date is required",
+    "supplierRequired": "Supplier name is required",
+    "payableAmountPositive": "Payable amount should be greater than zero",
+    "totalsMismatch": "Line items total ({{calculated}}) doesn't match invoice total ({{invoiceTotal}})"
+  },
+  "parser": {
+    "invalidFormat": "Invalid ISDOC format: Invoice root element not found",
+    "parseFailed": "Failed to parse ISDOC XML"
+  },
+  "footer": {
+    "privacy": "All processing happens in your browser. No data is sent to us.",
+    "madeWith": "made with ❤️ by Richard Ginzburg and 🤖 Claude"
+  }
+}

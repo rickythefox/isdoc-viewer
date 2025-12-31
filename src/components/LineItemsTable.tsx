@@ -1,4 +1,6 @@
 import type React from "react";
+import { useTranslation } from "react-i18next";
+import { getDateLocale } from "../i18n";
 import type { InvoiceLine } from "../types/isdoc";
 
 interface LineItemsTableProps {
@@ -12,8 +14,10 @@ export const LineItemsTable: React.FC<LineItemsTableProps> = ({
   currency,
   showVAT,
 }) => {
+  const { t } = useTranslation();
+
   const formatAmount = (amount: number) => {
-    return new Intl.NumberFormat("cs-CZ", {
+    return new Intl.NumberFormat(getDateLocale(), {
       style: "decimal",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -22,26 +26,26 @@ export const LineItemsTable: React.FC<LineItemsTableProps> = ({
 
   return (
     <div className="mb-6">
-      <h2 className="text-lg font-semibold mb-3">Položky faktury</h2>
+      <h2 className="text-lg font-semibold mb-3">{t("items.title")}</h2>
       <table className="w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
             <th className="border border-gray-300 px-4 py-2 text-left">
-              Popis
+              {t("items.description")}
             </th>
             <th className="border border-gray-300 px-4 py-2 text-right">
-              Množství
+              {t("items.quantity")}
             </th>
             <th className="border border-gray-300 px-4 py-2 text-right">
-              Jedn. cena
+              {t("items.unitPrice")}
             </th>
             {showVAT && (
               <th className="border border-gray-300 px-4 py-2 text-right">
-                DPH %
+                {t("items.vatPercent")}
               </th>
             )}
             <th className="border border-gray-300 px-4 py-2 text-right">
-              Celkem
+              {t("items.total")}
             </th>
           </tr>
         </thead>
@@ -49,7 +53,7 @@ export const LineItemsTable: React.FC<LineItemsTableProps> = ({
           {lines.map((line) => (
             <tr key={line.id}>
               <td className="border border-gray-300 px-4 py-2">
-                {line.item?.description || "Bez popisu"}
+                {line.item?.description || t("items.noDescription")}
               </td>
               <td className="border border-gray-300 px-4 py-2 text-right">
                 {line.invoicedQuantity}

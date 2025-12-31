@@ -1,4 +1,5 @@
 import type React from "react";
+import { useTranslation } from "react-i18next";
 import type { AccountingParty } from "../types/isdoc";
 
 interface PartyPanelProps {
@@ -7,6 +8,7 @@ interface PartyPanelProps {
 }
 
 export const PartyPanel: React.FC<PartyPanelProps> = ({ party, title }) => {
+  const { t } = useTranslation();
   const {
     partyIdentification,
     partyName,
@@ -25,7 +27,7 @@ export const PartyPanel: React.FC<PartyPanelProps> = ({ party, title }) => {
 
       {partyIdentification?.id && (
         <div className="text-sm text-gray-600 mb-2">
-          IČO: {partyIdentification.id}
+          {t("parties.ico")}: {partyIdentification.id}
         </div>
       )}
 
@@ -53,8 +55,16 @@ export const PartyPanel: React.FC<PartyPanelProps> = ({ party, title }) => {
       {contact && (
         <div className="text-sm space-y-1 border-t pt-2">
           {contact.name && <div className="font-medium">{contact.name}</div>}
-          {contact.telephone && <div>Tel: {contact.telephone}</div>}
-          {contact.electronicMail && <div>Email: {contact.electronicMail}</div>}
+          {contact.telephone && (
+            <div>
+              {t("parties.tel")}: {contact.telephone}
+            </div>
+          )}
+          {contact.electronicMail && (
+            <div>
+              {t("parties.email")}: {contact.electronicMail}
+            </div>
+          )}
         </div>
       )}
     </div>
