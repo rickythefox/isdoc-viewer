@@ -1,0 +1,5 @@
+# Copy this file to terraform.tfvars and fill in your values
+aws_region   = "eu-central-1"
+domain_name  = "isdoc-reader.cz"
+project_name = "isdoc-reader"
+github_repo  = "your-username/isdoc-viewer"  # Update this
