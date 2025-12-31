@@ -26,12 +26,12 @@ jobs:
           mkdir -p dist
           cat > dist/index.html << 'EOF'
           <!DOCTYPE html>
-          <html lang="en">
+          <html lang="cs">
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="refresh" content="5;url=https://isdoc-reader.cz">
-            <title>ISDOC Viewer has moved</title>
+            <title>ISDOC Viewer se přestěhoval</title>
             <style>
               body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -66,10 +66,10 @@ jobs:
           </head>
           <body>
             <div class="container">
-              <h1>ISDOC Viewer has moved!</h1>
-              <p>This site is now available at a new address.</p>
-              <a href="https://isdoc-reader.cz">Go to isdoc-reader.cz</a>
-              <p class="auto-redirect">You will be redirected automatically in 5 seconds...</p>
+              <h1>ISDOC Viewer se přestěhoval!</h1>
+              <p>Tato stránka je nyní dostupná na nové adrese.</p>
+              <a href="https://isdoc-reader.cz">Přejít na isdoc-reader.cz</a>
+              <p class="auto-redirect">Budete automaticky přesměrováni za 5 sekund...</p>
             </div>
           </body>
           </html>
