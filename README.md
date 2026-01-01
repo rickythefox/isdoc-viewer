@@ -11,7 +11,7 @@ A modern, type-safe React application for reading and displaying Czech ISDOC 6.0
 
 ## Available online
 
-https://rickythefox.github.io/isdoc-viewer/
+[https://rickythefox.github.io/isdoc-viewer/](https://isdoc-reader.cz/)
 
 **The app is client-side only, no data leaves your browser!**
 
