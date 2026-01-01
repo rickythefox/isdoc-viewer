@@ -1,0 +1,6 @@
+# robots.txt for isdoc-reader.cz
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://isdoc-reader.cz/sitemap.xml
