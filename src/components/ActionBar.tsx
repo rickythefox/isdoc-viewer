@@ -1,6 +1,5 @@
 import type React from "react";
 import { useTranslation } from "react-i18next";
-import { exportToPDF } from "../lib/pdf-exporter";
 
 interface ActionBarProps {
   invoiceId: string;
@@ -16,6 +15,8 @@ export const ActionBar: React.FC<ActionBarProps> = ({ invoiceId, onReset }) => {
 
   const handleExportPDF = async () => {
     try {
+      // Lazy load PDF export libs only when needed
+      const { exportToPDF } = await import("../lib/pdf-exporter");
       await exportToPDF("invoice-viewer", `Faktura_${invoiceId}.pdf`);
     } catch (error) {
       console.error("Failed to export PDF:", error);
