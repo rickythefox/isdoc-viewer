@@ -42,7 +42,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4">
-      <div className="max-w-6xl mx-auto">
+      <main className="max-w-6xl mx-auto">
         <header className="mb-8 text-center no-print relative">
           {/* Language selector - top right */}
           <div className="absolute top-0 right-0">
@@ -110,13 +110,13 @@ function App() {
             href="https://www.linkedin.com/in/richardginzburg/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:text-blue-800 hover:underline"
+            className="text-blue-600 underline hover:text-blue-800"
           >
             Richard Ginzburg
           </a>{" "}
           and 🤖 Claude
         </footer>
-      </div>
+      </main>
     </div>
   );
 }

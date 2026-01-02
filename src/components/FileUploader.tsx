@@ -43,7 +43,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileLoad }) => {
         ${isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"}
       `}
     >
-      <input {...getInputProps()} />
+      <input {...getInputProps()} aria-label={t("upload.dropzone")} />
       <div className="space-y-2">
         <svg
           className="mx-auto h-12 w-12 text-gray-400"
