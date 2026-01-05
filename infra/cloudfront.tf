@@ -1,3 +1,30 @@
+# CloudFront Function to redirect www to non-www
+resource "aws_cloudfront_function" "www_redirect" {
+  name    = "${var.project_name}-www-redirect"
+  runtime = "cloudfront-js-2.0"
+  publish = true
+  code    = <<-EOF
+    function handler(event) {
+      var request = event.request;
+      var host = request.headers.host.value;
+
+      // Redirect www to non-www
+      if (host.startsWith('www.')) {
+        var newHost = host.substring(4);
+        return {
+          statusCode: 301,
+          statusDescription: 'Moved Permanently',
+          headers: {
+            location: { value: 'https://' + newHost + request.uri }
+          }
+        };
+      }
+
+      return request;
+    }
+  EOF
+}
+
 # Origin Access Control for S3
 resource "aws_cloudfront_origin_access_control" "website" {
   name                              = "${var.project_name}-oac"
@@ -30,6 +57,12 @@ resource "aws_cloudfront_distribution" "website" {
 
     # Use managed cache policy for optimized caching
     cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6" # CachingOptimized
+
+    # Redirect www to non-www
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.www_redirect.arn
+    }
   }
 
   # SPA support: return index.html for 404s
